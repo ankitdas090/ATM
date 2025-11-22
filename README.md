@@ -1,29 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-float bal = 1000;
+float balance = 1000.0;
 int pin = 1234;
 
-int main() {
-    int p, ch; float amt;
-    printf("Enter PIN: "); scanf("%d", &p);
-    if (p != pin) return printf("Wrong PIN!\n"), 0;
+int authenticate() {
+    int enteredPin;
+    printf("Enter your PIN: ");
+    scanf("%d", &enteredPin);
+    return (enteredPin == pin);
+}
 
+void checkBalance() { printf("Balance: $%.2f\n", balance); }
+
+void withdraw() {
+    float amount;
+    printf("Withdraw amount: $");
+    scanf("%f", &amount);
+    if (amount <= 0) printf("Invalid amount!\n");
+    else if (amount > balance) printf("Insufficient funds!\n");
+    else { balance -= amount; printf("New balance: $%.2f\n", balance); }
+}
+
+void deposit() {
+    float amount;
+    printf("Deposit amount: $");
+    scanf("%f", &amount);
+    if (amount <= 0) printf("Invalid amount!\n");
+    else { balance += amount; printf("New balance: $%.2f\n", balance); }
+}
+
+int main() {
+    int choice;
+    if (!authenticate()) { printf("Invalid PIN!\n"); return 1; }
     while (1) {
-        printf("\n1.Balance 2.Withdraw 3.Deposit 4.Exit\nChoice: ");
-        scanf("%d", &ch);
-        if (ch == 1) printf("Balance: $%.2f\n", bal);
-        else if (ch == 2) {
-            printf("Withdraw: $"); scanf("%f", &amt);
-            if (amt > 0 && amt <= bal) bal -= amt, printf("New: $%.2f\n", bal);
-            else printf("Invalid!\n");
+        printf("\n1.Check Balance\n2.Withdraw\n3.Deposit\n4.Exit\nChoice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1: checkBalance(); break;
+            case 2: withdraw(); break;
+            case 3: deposit(); break;
+            case 4: printf("Goodbye!\n"); exit(0);
+            default: printf("Invalid choice!\n");
         }
-        else if (ch == 3) {
-            printf("Deposit: $"); scanf("%f", &amt);
-            if (amt > 0) bal += amt, printf("New: $%.2f\n", bal);
-            else printf("Invalid!\n");
-        }
-        else if (ch == 4) return printf("Bye!\n"), 0;
-        else printf("Invalid choice!\n");
     }
 }
