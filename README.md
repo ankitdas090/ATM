@@ -7,7 +7,7 @@ int pin = 1234;
 int main() {
     int p, ch; float amt;
     printf("Enter PIN: "); scanf("%d", &p);
-    if (p != pin) return printf("Wrong PIN!\n"), 0;
+    if (p != pin){ return printf("Wrong PIN!\n"), 0;}
 
     while (1) {
         printf("\n1.Balance 2.Withdraw 3.Deposit 4.Exit\nChoice: ");
